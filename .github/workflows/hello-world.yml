@@ -20,3 +20,30 @@ jobs:
       - name: check os
         uses: actions/checkout@v4
       - run: cat /etc/os-release
+  
+  cpu-info-job:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: cpu info
+        uses: actions/checkout@v4
+      - run: lscpu
+  
+  ram-info-job:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ram info
+        uses: actions/checkout@v4
+      - run: free -h
+
+  storage-info-job:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: storage info
+        uses: actions/checkout@v4
+      - run: df -h
