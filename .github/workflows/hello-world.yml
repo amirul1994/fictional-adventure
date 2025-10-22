@@ -1,49 +1,40 @@
-name: linux commands
+name: Basic Checkout Lab With Exercises
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  hello-world-job:
+  basic-checkout:
+    runs-on: ubuntu-latest
+    env:
+      CUSTOM_MESSAGE: "Hello from Github Actions!"
     
-    runs-on: ubuntu-latest
-
     steps:
-      - name: check out respository
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - run: echo "$(cat hello_world.txt)"
 
-  os-info-job:
-    
-    runs-on: ubuntu-latest
+      - name: List files
+        run: ls -la
 
-    steps:
-      - name: check os
-        uses: actions/checkout@v4
-      - run: cat /etc/os-release
-  
-  cpu-info-job:
-    
-    runs-on: ubuntu-latest
+      - name: Show system info
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Operating System: $(uname -a)"
+          echo "Current Directory $(pwd)"
 
-    steps:
-      - name: cpu info
-        uses: actions/checkout@v4
-      - run: lscpu
-  
-  ram-info-job:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: ram info
-        uses: actions/checkout@v4
-      - run: free -h
-
-  storage-info-job:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: storage info
-        uses: actions/checkout@v4
-      - run: df -h
+      - name: Show additional system metrics
+        run: |
+          echo "Current date and time: $(date)"
+          echo "Available disk space"
+          df -h
+          echo "Memory usage:"
+          free -m
+      
+      - name: Display custom message
+        run: echo "$CUSTOM_MESSAGE"
+      
+      - name: Conditional step (push-only)
+        if: github.event_name == 'push'
+        run: echo "This was triggered by a push event"
